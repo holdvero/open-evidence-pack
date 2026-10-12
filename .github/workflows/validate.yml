@@ -1,0 +1,23 @@
+name: Validate examples
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install jsonschema pyyaml openpyxl
+      - name: Examples must pass
+        run: python tools/validate.py examples/*.yaml examples/*.json examples/*.xlsx
+      - name: Invalid file must fail
+        run: |
+          if python tools/validate.py tests/invalid-pack.yaml; then
+            echo "tests/invalid-pack.yaml should have failed"; exit 1
+          fi
