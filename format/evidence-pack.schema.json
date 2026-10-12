@@ -1,0 +1,464 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/holdvero/open-evidence-pack/blob/main/format/evidence-pack.schema.json",
+  "title": "Open Evidence Pack",
+  "description": "An open, practical format for keeping questionnaire answers connected to the evidence behind them. Version 0.2. Statuses describe how well an answer is supported by evidence; they are not a certification.",
+  "type": "object",
+  "required": [
+    "format_version",
+    "organisation",
+    "answers"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "format_version": {
+      "const": "0.2"
+    },
+    "organisation": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "website": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "as_of": {
+      "$ref": "#/$defs/date"
+    },
+    "default_language": {
+      "$ref": "#/$defs/language"
+    },
+    "answers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/answer"
+      }
+    },
+    "evidence": {
+      "description": "The evidence register: one entry per document, record, setting or result that answers can refer to.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence"
+      }
+    },
+    "open_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/open_item"
+      }
+    }
+  },
+  "patternProperties": {
+    "^x_[a-z0-9_]+$": {
+      "description": "Your own extra fields. Tools must keep them and may ignore them."
+    }
+  },
+  "$defs": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "language": {
+      "description": "Language tag such as en, nl or nl-BE.",
+      "type": "string",
+      "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ref": {
+      "type": "object",
+      "required": [
+        "evidence_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "$ref": "#/$defs/id"
+        },
+        "locator": {
+          "description": "Where in the evidence the support is: a section, page, heading, cell or setting.",
+          "type": "string"
+        }
+      }
+    },
+    "answer": {
+      "type": "object",
+      "required": [
+        "question_id",
+        "question",
+        "short_answer",
+        "approved_answer",
+        "answer_status",
+        "answer_owner",
+        "last_reviewed",
+        "next_review"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "question_id": {
+          "$ref": "#/$defs/id"
+        },
+        "category": {
+          "type": "string"
+        },
+        "question": {
+          "$ref": "#/$defs/text"
+        },
+        "short_answer": {
+          "description": "yes, no, partly, described (for open questions such as 'Who...?' or 'How often...?') or not_applicable.",
+          "enum": [
+            "yes",
+            "no",
+            "partly",
+            "described",
+            "not_applicable"
+          ]
+        },
+        "approved_answer": {
+          "$ref": "#/$defs/text"
+        },
+        "answer_status": {
+          "description": "evidenced: true and supported by evidence (the short answer can be yes, no or partly). partial: partly in place, the rest is an open item. open_item: not (fully) in place yet, with a plan. explained_no: honestly no, a gap, with an explanation of what you do instead. not_applicable: does not apply, with a reason.",
+          "enum": [
+            "evidenced",
+            "partial",
+            "open_item",
+            "explained_no",
+            "not_applicable"
+          ]
+        },
+        "answer_owner": {
+          "$ref": "#/$defs/text"
+        },
+        "last_reviewed": {
+          "$ref": "#/$defs/date"
+        },
+        "next_review": {
+          "$ref": "#/$defs/date"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence_ref"
+          }
+        },
+        "open_item_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "uniqueItems": true
+        },
+        "framework_refs": {
+          "description": "Where this question appears in frameworks or standard questionnaires, as reference numbers only. Never copy text from paid standards.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/text"
+          },
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": "string"
+        },
+        "language": {
+          "$ref": "#/$defs/language"
+        }
+      },
+      "patternProperties": {
+        "^x_[a-z0-9_]+$": {
+          "description": "Your own extra fields. Tools must keep them and may ignore them."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "answer_status": {
+                "const": "evidenced"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "evidence"
+            ],
+            "properties": {
+              "evidence": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "answer_status": {
+                "enum": [
+                  "partial",
+                  "open_item"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "open_item_ids"
+            ],
+            "properties": {
+              "open_item_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "answer_status": {
+                "const": "partial"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "short_answer": {
+                "const": "partly"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "answer_status": {
+                "const": "explained_no"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "short_answer": {
+                "const": "no"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "answer_status": {
+                "const": "not_applicable"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "short_answer": {
+                "const": "not_applicable"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "short_answer": {
+                "const": "not_applicable"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "answer_status": {
+                "const": "not_applicable"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "evidence_id",
+        "title",
+        "evidence_type",
+        "version",
+        "version_date",
+        "owner",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "$ref": "#/$defs/id"
+        },
+        "title": {
+          "$ref": "#/$defs/text"
+        },
+        "evidence_type": {
+          "enum": [
+            "policy",
+            "procedure",
+            "record",
+            "documentation",
+            "configuration",
+            "system_generated",
+            "screenshot",
+            "test_result",
+            "audit_report",
+            "certificate",
+            "contract",
+            "other"
+          ]
+        },
+        "version": {
+          "$ref": "#/$defs/text"
+        },
+        "version_date": {
+          "description": "Date this version was approved, issued, exported or captured.",
+          "$ref": "#/$defs/date"
+        },
+        "owner": {
+          "$ref": "#/$defs/text"
+        },
+        "review_due": {
+          "description": "When this evidence must be reviewed or renewed. Most documents do not expire; they are due for review.",
+          "$ref": "#/$defs/date"
+        },
+        "locator": {
+          "description": "Default location inside the evidence, if it applies to the whole entry. Answers can give a more precise locator.",
+          "type": "string"
+        },
+        "shareable": {
+          "enum": [
+            "public",
+            "on_request",
+            "under_nda",
+            "internal_only"
+          ]
+        },
+        "status": {
+          "enum": [
+            "current",
+            "draft",
+            "superseded",
+            "withdrawn"
+          ]
+        },
+        "storage_reference": {
+          "description": "Where the evidence is kept, as an internal reference. Never embed confidential documents in the pack, and never use a public link to a confidential file.",
+          "type": "string"
+        },
+        "hash_algorithm": {
+          "enum": [
+            "sha256",
+            "sha384",
+            "sha512"
+          ]
+        },
+        "hash": {
+          "description": "Fingerprint of the evidence file. A stored hash lets you later verify whether a file is identical to the version that was registered. It does not show that a control is effective.",
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64,128}$"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^x_[a-z0-9_]+$": {
+          "description": "Your own extra fields. Tools must keep them and may ignore them."
+        }
+      },
+      "dependentRequired": {
+        "hash": [
+          "hash_algorithm"
+        ]
+      }
+    },
+    "open_item": {
+      "type": "object",
+      "required": [
+        "open_item_id",
+        "description",
+        "related_question_ids",
+        "owner",
+        "target_date",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "open_item_id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "$ref": "#/$defs/text"
+        },
+        "related_question_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "uniqueItems": true
+        },
+        "owner": {
+          "$ref": "#/$defs/text"
+        },
+        "target_date": {
+          "$ref": "#/$defs/date"
+        },
+        "status": {
+          "enum": [
+            "open",
+            "in_progress",
+            "closed"
+          ]
+        },
+        "resolution_note": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^x_[a-z0-9_]+$": {
+          "description": "Your own extra fields. Tools must keep them and may ignore them."
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "closed"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "resolution_note"
+        ],
+        "properties": {
+          "resolution_note": {
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

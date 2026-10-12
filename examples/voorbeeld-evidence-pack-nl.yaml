@@ -1,0 +1,489 @@
+# Open Evidence Pack: fictief voorbeeld.
+# Voorbeeld Software B.V. bestaat niet. Alle namen, datums, documenten en hashes zijn verzonnen.
+# Veldnamen en vaste waarden blijven Engels, zodat elk bestand met hetzelfde schema werkt.
+format_version: '0.2'
+organisation:
+  name: Voorbeeld Software B.V. (fictief)
+  website: https://example.com
+as_of: '2026-09-30'
+default_language: nl
+answers:
+- question_id: Q-01
+  category: Organisatie en beleid
+  question: Heeft u een vastgesteld informatiebeveiligingsbeleid?
+  short_answer: 'yes'
+  approved_answer: Ja. Vastgesteld door de directie op 3 maart 2026 en jaarlijks herzien.
+  answer_status: evidenced
+  answer_owner: CTO
+  last_reviewed: '2026-09-20'
+  next_review: '2027-03-03'
+  evidence:
+  - evidence_id: BEL-01
+    locator: §1, §7
+  framework_refs:
+  - ISO/IEC 27001:2022 A.5.1
+- question_id: Q-02
+  category: Organisatie en beleid
+  question: Bent u gecertificeerd voor ISO 27001, of heeft u een SOC 2-rapport?
+  short_answer: 'no'
+  approved_answer: Nee. We hebben geen certificaat of auditrapport. Onze maatregelen volgen ISO/IEC 27002:2022;
+    zie de verklaring van toepasselijkheid.
+  answer_status: explained_no
+  answer_owner: CEO
+  last_reviewed: '2026-09-20'
+  next_review: '2027-03-03'
+  evidence:
+  - evidence_id: BEL-02
+- question_id: Q-03
+  category: Organisatie en beleid
+  question: Wie is eindverantwoordelijk voor informatiebeveiliging?
+  short_answer: described
+  approved_answer: De CTO. Hij rapporteert elk kwartaal aan de directie.
+  answer_status: evidenced
+  answer_owner: CTO
+  last_reviewed: '2026-09-20'
+  next_review: '2027-03-03'
+  evidence:
+  - evidence_id: BEL-01
+    locator: §3
+  framework_refs:
+  - ISO/IEC 27001:2022 A.5.2
+- question_id: Q-04
+  category: Toegang
+  question: Gebruikt u MFA voor alle toegang tot productiesystemen?
+  short_answer: 'yes'
+  approved_answer: Ja, voor alle medewerkers en beheerders, afgedwongen in de identity provider. Voor eindgebruikers
+    van klanten is MFA per klantomgeving in te schakelen, maar niet standaard verplicht.
+  answer_status: evidenced
+  answer_owner: CTO
+  last_reviewed: '2026-09-20'
+  next_review: '2027-03-10'
+  evidence:
+  - evidence_id: PRO-04
+    locator: §2
+  - evidence_id: SCR-01
+  framework_refs:
+  - ISO/IEC 27001:2022 A.8.5
+- question_id: Q-05
+  category: Toegang
+  question: Hoe vaak worden toegangsrechten herzien?
+  short_answer: described
+  approved_answer: 'Elk kwartaal voor productiesystemen. Laatste review: 1 juli 2026.'
+  answer_status: evidenced
+  answer_owner: CTO
+  last_reviewed: '2026-09-20'
+  next_review: '2026-12-31'
+  evidence:
+  - evidence_id: REG-02
+  framework_refs:
+  - ISO/IEC 27001:2022 A.5.18
+- question_id: Q-06
+  category: Toegang
+  question: Worden accounts van vertrekkende medewerkers direct ingetrokken?
+  short_answer: 'yes'
+  approved_answer: Ja, op de laatste werkdag, via de offboarding-checklist.
+  answer_status: evidenced
+  answer_owner: Operations
+  last_reviewed: '2026-09-20'
+  next_review: '2027-02-28'
+  evidence:
+  - evidence_id: PRO-05
+  - evidence_id: REG-07
+  framework_refs:
+  - ISO/IEC 27001:2022 A.5.18
+- question_id: Q-07
+  category: Gegevens en privacy
+  question: Waar worden onze gegevens opgeslagen?
+  short_answer: described
+  approved_answer: In datacenters van onze hostingpartij in Nederland en Duitsland. Back-ups staan in dezelfde regio's.
+  answer_status: evidenced
+  answer_owner: Operations
+  last_reviewed: '2026-09-20'
+  next_review: '2027-05-01'
+  evidence:
+  - evidence_id: LST-01
+- question_id: Q-08
+  category: Gegevens en privacy
+  question: Worden gegevens versleuteld, in rust en tijdens transport?
+  short_answer: 'yes'
+  approved_answer: Ja. Transport via TLS 1.2 of hoger. Database en back-ups zijn in rust versleuteld met sleutels
+    die de hostingpartij beheert.
+  answer_status: evidenced
+  answer_owner: CTO
+  last_reviewed: '2026-09-20'
+  next_review: '2027-02-14'
+  evidence:
+  - evidence_id: ARC-01
+    locator: §4
+  - evidence_id: SYS-02
+  framework_refs:
+  - ISO/IEC 27001:2022 A.8.24
+- question_id: Q-09
+  category: Gegevens en privacy
+  question: Gebruikt u subverwerkers?
+  short_answer: 'yes'
+  approved_answer: Ja, vijf. De lijst staat in bijlage 2 van de verwerkersovereenkomst. Wijzigingen melden we 30
+    dagen vooraf.
+  answer_status: evidenced
+  answer_owner: Operations
+  last_reviewed: '2026-09-20'
+  next_review: '2027-05-01'
+  evidence:
+  - evidence_id: LST-01
+  - evidence_id: CON-01
+    locator: art. 6
+  framework_refs:
+  - ISO/IEC 27001:2022 A.5.19
+- question_id: Q-10
+  category: Ontwikkeling en kwetsbaarheden
+  question: Laat u jaarlijks een penetratietest uitvoeren?
+  short_answer: 'yes'
+  approved_answer: Ja. Laatste test door een externe partij in mei 2026. Twee middelhoge bevindingen zijn opgelost;
+    één lage staat open met een plan. Samenvatting beschikbaar onder NDA.
+  answer_status: evidenced
+  answer_owner: CTO
+  last_reviewed: '2026-09-20'
+  next_review: '2027-05-28'
+  evidence:
+  - evidence_id: RAP-01
+  - evidence_id: REG-05
+- question_id: Q-11
+  category: Ontwikkeling en kwetsbaarheden
+  question: Hoe beheert u kwetsbaarheden in gebruikte software?
+  short_answer: partly
+  approved_answer: Deels. Elke build wordt automatisch gescand; kritieke kwetsbaarheden lossen we binnen 7 dagen
+    op, hoge binnen 30 dagen. Of die termijnen gehaald worden, registreren we pas sinds augustus 2026.
+  answer_status: partial
+  answer_owner: Lead developer
+  last_reviewed: '2026-09-20'
+  next_review: '2026-12-15'
+  evidence:
+  - evidence_id: PRO-07
+    locator: §3
+  - evidence_id: SYS-01
+  open_item_ids:
+  - OI-03
+  framework_refs:
+  - ISO/IEC 27001:2022 A.8.8
+- question_id: Q-12
+  category: Continuïteit en incidenten
+  question: Test u uw herstel- en uitwijkplan?
+  short_answer: partly
+  approved_answer: Deels. Back-ups zetten we elke maand terug als test. Een volledige uitwijktest is nog niet gedaan;
+    die staat gepland voor het eerste kwartaal van 2027.
+  answer_status: open_item
+  answer_owner: CTO
+  last_reviewed: '2026-09-20'
+  next_review: '2027-03-31'
+  evidence:
+  - evidence_id: REG-06
+  - evidence_id: BCP-01
+  open_item_ids:
+  - OI-01
+  framework_refs:
+  - ISO/IEC 27001:2022 A.8.13
+  - ISO/IEC 27001:2022 A.5.30
+- question_id: Q-13
+  category: Continuïteit en incidenten
+  question: Binnen welke termijn meldt u een beveiligingsincident?
+  short_answer: described
+  approved_answer: Binnen 24 uur nadat we het hebben vastgesteld, zoals ook in de verwerkersovereenkomst staat.
+  answer_status: evidenced
+  answer_owner: CTO
+  last_reviewed: '2026-09-20'
+  next_review: '2027-03-03'
+  evidence:
+  - evidence_id: PRO-09
+    locator: §5
+  - evidence_id: CON-01
+    locator: art. 9
+  framework_refs:
+  - ISO/IEC 27001:2022 A.5.24
+- question_id: Q-14
+  category: Mensen, leveranciers en AI
+  question: Volgen medewerkers jaarlijks een security-awarenesstraining?
+  short_answer: partly
+  approved_answer: Deels. Nieuwe medewerkers volgen hem bij indiensttreding. Een jaarlijkse herhaling voor iedereen
+    is gestart in september 2026; de eerste ronde is in december 2026 rond.
+  answer_status: open_item
+  answer_owner: Operations
+  last_reviewed: '2026-09-20'
+  next_review: '2026-12-31'
+  evidence:
+  - evidence_id: PRO-03
+  - evidence_id: REG-03
+  open_item_ids:
+  - OI-02
+  framework_refs:
+  - ISO/IEC 27001:2022 A.6.3
+- question_id: Q-15
+  category: Mensen, leveranciers en AI
+  question: Gebruikt uw product AI, en worden onze gegevens gebruikt om modellen te trainen?
+  short_answer: 'yes'
+  approved_answer: Ja, één functie. De samenvattingsfunctie gebruikt een taalmodel van een externe aanbieder (subverwerker
+    5). Die functie staat standaard uit. Klantgegevens worden niet gebruikt om modellen te trainen; dat is contractueel
+    uitgesloten.
+  answer_status: evidenced
+  answer_owner: CTO
+  last_reviewed: '2026-09-20'
+  next_review: '2027-03-20'
+  evidence:
+  - evidence_id: LST-01
+  - evidence_id: CON-02
+    locator: §8
+  - evidence_id: DOC-01
+evidence:
+- evidence_id: BEL-01
+  title: Informatiebeveiligingsbeleid
+  evidence_type: policy
+  version: '2.1'
+  version_date: '2026-03-03'
+  owner: CTO
+  review_due: '2027-03-03'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Policies / BEL-01
+  hash_algorithm: sha256
+  hash: 457cb59a2df58f6f5122c51b574e33621386aef914673a83c763bc2a7ce2e20c
+  notes: Fictieve hash ter illustratie.
+- evidence_id: BEL-02
+  title: Verklaring van toepasselijkheid
+  evidence_type: documentation
+  version: '1.0'
+  version_date: '2026-03-03'
+  owner: CTO
+  review_due: '2027-03-03'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Policies / BEL-02
+- evidence_id: PRO-03
+  title: Procedure bewustwording
+  evidence_type: procedure
+  version: '1.0'
+  version_date: '2026-01-15'
+  owner: Operations
+  review_due: '2027-01-15'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Procedures / PRO-03
+- evidence_id: PRO-04
+  title: Procedure toegangsbeheer
+  evidence_type: procedure
+  version: '1.3'
+  version_date: '2026-02-10'
+  owner: CTO
+  review_due: '2027-02-10'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Procedures / PRO-04
+- evidence_id: PRO-05
+  title: Procedure en checklist offboarding
+  evidence_type: procedure
+  version: '1.1'
+  version_date: '2026-02-10'
+  owner: Operations
+  review_due: '2027-02-10'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Procedures / PRO-05
+- evidence_id: PRO-07
+  title: Procedure kwetsbaarheidsbeheer
+  evidence_type: procedure
+  version: '1.0'
+  version_date: '2026-08-01'
+  owner: Lead developer
+  review_due: '2027-08-01'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Procedures / PRO-07
+- evidence_id: PRO-09
+  title: Incidentprocedure
+  evidence_type: procedure
+  version: '1.2'
+  version_date: '2026-03-03'
+  owner: CTO
+  review_due: '2027-03-03'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Procedures / PRO-09
+  hash_algorithm: sha256
+  hash: 1cd448e13647754c86146ce2409e6195fd79969fd830f108079bf1a4e0994f12
+  notes: Fictieve hash ter illustratie.
+- evidence_id: ARC-01
+  title: Architectuuroverzicht
+  evidence_type: documentation
+  version: '3.0'
+  version_date: '2026-06-12'
+  owner: CTO
+  review_due: '2027-06-12'
+  shareable: under_nda
+  status: current
+  storage_reference: SharePoint / Architecture / ARC-01
+- evidence_id: BCP-01
+  title: Continuïteitsplan
+  evidence_type: procedure
+  version: '1.0'
+  version_date: '2026-04-20'
+  owner: CTO
+  review_due: '2027-04-20'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Continuity / BCP-01
+- evidence_id: REG-02
+  title: Toegangsreview Q3 2026
+  evidence_type: record
+  version: Q3 2026
+  version_date: '2026-07-01'
+  owner: CTO
+  review_due: '2027-01-15'
+  shareable: under_nda
+  status: current
+  storage_reference: SharePoint / Records / REG-02
+- evidence_id: REG-03
+  title: Deelnameregister bewustwording
+  evidence_type: record
+  version: 2026-09
+  version_date: '2026-09-30'
+  owner: Operations
+  review_due: '2026-12-31'
+  shareable: internal_only
+  status: current
+  storage_reference: HR system / training records
+- evidence_id: REG-05
+  title: Bevindingenregister
+  evidence_type: record
+  version: 2026-09
+  version_date: '2026-09-15'
+  owner: Lead developer
+  review_due: '2026-12-15'
+  shareable: under_nda
+  status: current
+  storage_reference: Issue tracker / findings board
+- evidence_id: REG-06
+  title: Logboek hersteltests
+  evidence_type: record
+  version: 2026-09
+  version_date: '2026-09-05'
+  owner: CTO
+  review_due: '2026-12-05'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Records / REG-06
+- evidence_id: REG-07
+  title: Ingevulde offboarding-checklist (laatste vertrek)
+  evidence_type: record
+  version: 2026-08
+  version_date: '2026-08-29'
+  owner: Operations
+  review_due: '2027-02-28'
+  shareable: under_nda
+  status: current
+  storage_reference: SharePoint / Records / offboarding
+- evidence_id: LST-01
+  title: Subverwerkerslijst (bijlage 2 bij de verwerkersovereenkomst)
+  evidence_type: documentation
+  version: '4'
+  version_date: '2026-05-01'
+  owner: Operations
+  review_due: '2027-05-01'
+  shareable: public
+  status: current
+  storage_reference: https://example.com/sub-processors
+- evidence_id: CON-01
+  title: Verwerkersovereenkomst (standaard)
+  evidence_type: contract
+  version: '2.0'
+  version_date: '2026-01-10'
+  owner: CEO
+  review_due: '2027-01-10'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Contracts / DPA template
+- evidence_id: CON-02
+  title: Contract met aanbieder taalmodel
+  evidence_type: contract
+  version: '2026'
+  version_date: '2026-03-20'
+  owner: CEO
+  review_due: '2027-03-20'
+  shareable: internal_only
+  status: current
+  storage_reference: SharePoint / Contracts / model provider
+- evidence_id: RAP-01
+  title: Samenvatting pentest mei 2026
+  evidence_type: test_result
+  version: 2026-05
+  version_date: '2026-05-28'
+  owner: CTO
+  review_due: '2027-05-28'
+  shareable: under_nda
+  status: current
+  storage_reference: SharePoint / Reports / pentest 2026
+  hash_algorithm: sha256
+  hash: d4fe760732c3aff24b158fd239872b8a0ca0e486a75144c62aa3edc2e5df98f0
+  notes: Fictieve hash ter illustratie.
+- evidence_id: SCR-01
+  title: 'Schermafdruk: beleid ''MFA verplicht'' in identity provider'
+  evidence_type: screenshot
+  version: '2026-09-10'
+  version_date: '2026-09-10'
+  owner: CTO
+  review_due: '2027-03-10'
+  locator: Beheerconsole > Beveiliging > Beleid
+  shareable: under_nda
+  status: current
+  storage_reference: SharePoint / Evidence / 2026-09
+- evidence_id: SYS-01
+  title: Export scanresultaten afhankelijkheden september 2026
+  evidence_type: system_generated
+  version: 2026-09
+  version_date: '2026-09-30'
+  owner: Lead developer
+  review_due: '2026-12-31'
+  shareable: under_nda
+  status: current
+  storage_reference: CI pipeline / scan exports
+- evidence_id: SYS-02
+  title: TLS-scan augustus 2026
+  evidence_type: test_result
+  version: 2026-08
+  version_date: '2026-08-14'
+  owner: Lead developer
+  review_due: '2027-02-14'
+  shareable: on_request
+  status: current
+  storage_reference: SharePoint / Evidence / TLS
+- evidence_id: DOC-01
+  title: Productdocumentatie 'AI-functies'
+  evidence_type: documentation
+  version: 2026-07
+  version_date: '2026-07-15'
+  owner: Product
+  review_due: '2027-01-15'
+  shareable: public
+  status: current
+  storage_reference: https://example.com/docs/ai-features
+open_items:
+- open_item_id: OI-01
+  description: Nog geen volledige uitwijktest. Volledige uitwijktest naar de tweede regio uitvoeren en een verslag
+    schrijven.
+  related_question_ids:
+  - Q-12
+  owner: CTO
+  target_date: '2027-03-31'
+  status: open
+- open_item_id: OI-02
+  description: Jaarlijkse awarenesstraining nog niet rond. Eerste jaarlijkse ronde afronden en deelname vastleggen.
+  related_question_ids:
+  - Q-14
+  owner: Operations
+  target_date: '2026-12-18'
+  status: in_progress
+- open_item_id: OI-03
+  description: Naleving van hersteltermijnen wordt nog niet gerapporteerd. Maandelijkse rapportage over gehaalde
+    termijnen starten.
+  related_question_ids:
+  - Q-11
+  owner: Lead developer
+  target_date: '2026-11-30'
+  status: in_progress

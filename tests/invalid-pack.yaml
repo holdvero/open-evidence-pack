@@ -1,0 +1,57 @@
+# This file is deliberately wrong. tools/validate.py must reject it.
+# Used by the automated check in .github/workflows/validate.yml.
+format_version: "0.2"
+organisation:
+  name: Example Software Ltd
+evidence:
+  - evidence_id: EVD-01
+    title: Information security policy
+    evidence_type: policy
+    version: "1.2"
+    version_date: "2026-03-14"
+    owner: CEO
+    status: current
+    hash: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef  # hash without algorithm
+  - evidence_id: EVD-02
+    title: Backup policy
+    evidence_type: policy
+    version: "1.0"
+    version_date: "2026-03-14"
+    owner: CTO
+    status: current
+    hash_algorithm: sha512                                                # wrong length for sha512
+    hash: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+answers:
+  - question_id: A-1                       # evidenced, but no evidence
+    question: Do you have a security policy?
+    short_answer: "yes"
+    approved_answer: "Yes."
+    answer_status: evidenced
+    answer_owner: CEO
+    last_reviewed: "2026-09-20"
+    next_review: "2027-03-14"
+  - question_id: A-2                       # partial without open item, and short answer does not match
+    question: Is MFA enforced?
+    short_answer: "yes"
+    approved_answer: Mostly.
+    answer_status: partial
+    answer_owner: CTO
+    last_reviewed: "2026-09-20"
+    next_review: "2027-03-14"
+  - question_id: A-2                       # duplicate id, unknown evidence, review before last review
+    question: Do you encrypt backups?
+    short_answer: "yes"
+    approved_answer: "Yes."
+    answer_status: evidenced
+    answer_owner: CTO
+    last_reviewed: "2026-09-20"
+    next_review: "2026-01-01"
+    evidence:
+      - evidence_id: EVD-99
+open_items:
+  - open_item_id: OI-1                     # closed without resolution note, unknown question
+    description: Enforce MFA in the support tool.
+    related_question_ids: [A-9]
+    owner: CTO
+    target_date: "2026-11-15"
+    status: closed
